@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RealEstateProject.view"
         mc:Ignorable="d"
-        Title="LoginView" Height="600" Width="900"
+        Title="LoginView" Height="430" Width="600"
         WindowStyle="None"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
@@ -124,36 +124,25 @@
                     </Button>
                 </Grid>
 
-                <StackPanel Width="220"
+                <StackPanel
                             Grid.Row="1"
                             Orientation="Vertical"
-                            Margin="288,15,288,20">
-
-                    <Image Source="/images/logo.png" Height="156" Width="180"/>
+                            Margin="220,20,220,0">
 
                     <TextBlock
                                Foreground="White"
                                FontSize="25"
                                FontWeight="Medium"
                                FontFamily="Montserrat"
-                               HorizontalAlignment="Center" Text="    Merek&#xD;&#xA;Real Estate"/>
-
-                    <TextBlock Text="Add slogan here."
-                               Foreground="LightGray"
-                               FontSize="12"
-                               FontWeight="Medium"
-                               FontFamily="Montserrat"
-                               TextWrapping="Wrap"
-                               TextAlignment="Center"
-                               Margin="0,5,0,0"/>
-
+                               HorizontalAlignment="Center" Text="    Merek&#xD;&#xA;Real Estate"
+                                Margin="0,15,0,0"/>
 
                     <TextBlock Text="Username"
                                Foreground="LightGray"
                                FontSize="12"
                                FontWeight="Medium"
                                FontFamily="Montserrat"                             
-                               Margin="0,35,0,0"/>
+                               Margin="0,25,0,0"/>
 
                     <TextBox x:Name="txtUser"
                              FontSize="13"
@@ -209,7 +198,7 @@
                             FontSize="12"
                             FontFamily="Montserrat"
                             Cursor="Hand"                           
-                            Margin="0,50,0,0"
+                            Margin="0,35,0,0"
                             Click="btnLogin_Click" >
 
                         <Button.Style>

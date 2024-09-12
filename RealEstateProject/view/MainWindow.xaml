@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RealEstateProject.view"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="MainWindow" Height="650" Width="1000"
         WindowStyle="None" 
         WindowStartupLocation="CenterScreen">
 
@@ -23,7 +23,8 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="25"/>
                     <ColumnDefinition Width="25"/>
-                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="2"/>
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Text="MAIN"
@@ -66,6 +67,39 @@
                     </Button.Template>
 
                 </Button>
+                
+                <Button x:Name="btnMaximize"                           
+             BorderThickness="0"
+             Content="🗖"
+             Foreground="White"
+             FontFamily="Montserrat"
+             Cursor="Hand"
+             Grid.Column="2"
+             Click="btnMaximize_Click" Background="#FF2EC0F1" FontSize="12" HorizontalAlignment="Left" Width="25">
+
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#28AEED"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#278BEF"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Width="18" Height="18"
+                         CornerRadius="9"
+                         Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+
+                </Button>
 
                 <Button x:Name="btnClose"                          
              BorderThickness="0"
@@ -74,7 +108,7 @@
              FontSize="12"
              FontFamily="Montserrat"
              Cursor="Hand"
-             Grid.Column="2"
+             Grid.Column="3"
              Click="btnClose_Click" Background="#FFFF0067" FontWeight="Bold" HorizontalAlignment="Center" Width="25" Height="30" VerticalAlignment="Top">
 
                     <Button.Style>
@@ -100,6 +134,7 @@
                     </Button.Template>
                 </Button>
             </Grid>
+            <Button Content="Button" HorizontalAlignment="Left" Margin="278,51,0,0" Grid.Row="1" VerticalAlignment="Top" Click="Button_Click"/>
         </Grid>
     </Border>
 </Window>

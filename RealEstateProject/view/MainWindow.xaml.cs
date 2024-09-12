@@ -28,7 +28,18 @@ namespace RealEstateProject.view
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Application.Current.Shutdown();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            LoginView loginView = new LoginView();
+            loginView.Show();
+        }
+
+        private void btnMaximize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Maximized;
         }
     }
 }

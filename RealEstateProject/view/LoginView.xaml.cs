@@ -36,7 +36,7 @@ namespace RealEstateProject.view
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            this.Close();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
