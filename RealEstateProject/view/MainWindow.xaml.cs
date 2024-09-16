@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MySql.Data.MySqlClient;
 
 namespace RealEstateProject.view
 {
@@ -18,28 +19,11 @@ namespace RealEstateProject.view
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<House> Houses { get; set; }
-
         public MainWindow()
         {
             InitializeComponent();
-
-            Houses = new ObservableCollection<House>
-            {
-                new House { ImagePath = "/Images/whouse.jpg", HouseId = "House1" },
-                new House { ImagePath = "/Images/images.jpg", HouseId = "House1" },
-                new House { ImagePath = "/Images/whouse.jpg", HouseId = "House1" },
-
-            };
-
-            // Set DataContext to bind data to the UI
-            DataContext = this;
+            MainFrame.Navigate(new HomePage());
         }
-        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            MessageBox.Show("11");
-        }
-
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
@@ -50,19 +34,12 @@ namespace RealEstateProject.view
             Application.Current.Shutdown();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            LoginView loginView = new LoginView();
-            loginView.Show();
-        }
-
         private void btnMaximize_Click(object sender, RoutedEventArgs e)
         {
             if (WindowState == WindowState.Maximized)
                 WindowState = WindowState.Normal;
             else
-                WindowState=WindowState.Maximized;
+                WindowState = WindowState.Maximized;
         }
-
     }
 }

@@ -17,13 +17,13 @@ using MySql.Data.MySqlClient;
 namespace RealEstateProject.view
 {
     /// <summary>
-    /// Interaction logic for LoginView.xaml
+    /// Interaction logic for SignupView.xaml
     /// </summary>
-    public partial class LoginView : Window
+    public partial class SignupView : Window
     {
         private string connectionString = "server=localhost;uid=root;pwd=ushallpass44;database=TestDB";
 
-        public LoginView()
+        public SignupView()
         {
             InitializeComponent();
         }
@@ -43,50 +43,46 @@ namespace RealEstateProject.view
             this.Close();
         }
 
-        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        private void btnsignup_Click(object sender, RoutedEventArgs e)
         {
             string name = textBoxName.Text;
+            string email = textBoxEmail.Text;
+            string phoneNumber = textBoxPhoneNumber.Text;
             string password = textBoxPassword.Password.ToString();
 
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(password))
+            // Simple validation
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(email) ||
+                string.IsNullOrWhiteSpace(phoneNumber) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Please fill in both fields.");
+                MessageBox.Show("All fields are required.");
                 return;
             }
 
+            // Insert new user into the database
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "SELECT user_id FROM Users WHERE name = @name AND password = @password";
+                string query = "INSERT INTO Users (name, email, phone_number, password) " +
+                               "VALUES (@name, @Email, @PhoneNumber, @Password)";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@name", name);
-                    command.Parameters.AddWithValue("@password", password);
+                    command.Parameters.AddWithValue("@Email", email);
+                    command.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
+                    command.Parameters.AddWithValue("@Password", password);
 
-                    using (MySqlDataReader reader = command.ExecuteReader())
+                    try
                     {
-                        if (reader.Read())
-                        {
-                            int userId = Convert.ToInt32(reader["user_id"]);
-                            MessageBox.Show("Login successful!");
-
-                            this.Hide();
-                            //HomeForm home = new HomeForm(userId);  // Navigate to Home Form with userId
-                            //home.Show();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Invalid credentials.");
-                        }
+                        command.ExecuteNonQuery();
+                        MessageBox.Show("Account created successfully!");
+                        this.Close(); // Close the sign-up form after successful sign-up
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
                     }
                 }
             }
-        }
-        private void createaccount_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            SignupView signupView = new SignupView();
-            this.Hide();
-            signupView.Show();
         }
     }
 }
