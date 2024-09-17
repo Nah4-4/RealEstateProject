@@ -28,7 +28,7 @@ namespace RealEstateProject
         private int currentImageIndex = 0;
         private List<string> imageUrls = new List<string>();
 
-        private string connectionString = "server=localhost;uid=root;pwd=ushallpass44;database=TestDB";
+        private string connectionString = "server=localhost;uid=root;pwd=;database=TestDB";
         public DetailsPage(int propertyId)
         {
             InitializeComponent();
