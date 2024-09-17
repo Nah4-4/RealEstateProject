@@ -24,7 +24,7 @@ namespace RealEstateProject
     public partial class HomePage : Page
     {
         int propertyId;
-        private string connectionString = "server=localhost;uid=root;pwd=ushallpass44;database=TestDB";
+        private string connectionString = "server=localhost;uid=root;pwd=;database=TestDB";
         public ObservableCollection<House> Houses { get; set; }
 
         public HomePage()
