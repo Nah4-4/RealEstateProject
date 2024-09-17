@@ -21,7 +21,7 @@ namespace RealEstateProject.view
     /// </summary>
     public partial class LoginView : Window
     {
-        private string connectionString = "server=localhost;uid=root;pwd=ushallpass44;database=TestDB";
+        private string connectionString = "server=localhost;uid=root;pwd=;database=TestDB";
 
         public LoginView()
         {
