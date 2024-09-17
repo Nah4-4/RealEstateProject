@@ -24,11 +24,13 @@ namespace RealEstateProject
     public partial class HomePage : Page
     {
         int propertyId;
+        private int? userId;
         private string connectionString = "server=localhost;uid=root;pwd=ushallpass44;database=TestDB";
         public ObservableCollection<House> Houses { get; set; }
 
-        public HomePage()
+        public HomePage(int? userId = null)
         {
+            this.userId = userId;
             InitializeComponent();
             Houses = new ObservableCollection<House>();
             LoadProperties();
@@ -43,7 +45,7 @@ namespace RealEstateProject
                 connection.Open();
                 // Fetch each property along with its first image
                 string query = @"
-                    SELECT p.property_id, p.title, COALESCE(pi.image_url, 'C:/RealEstateImages/placeholder.png') AS image_url
+                    SELECT p.property_id, p.title, COALESCE(pi.image_url, 'C:/RealEstateImages/placeholder.png') AS image_url,price
                     FROM Property p
                     LEFT JOIN (
                         SELECT property_id, MIN(image_url) AS image_url
@@ -59,15 +61,16 @@ namespace RealEstateProject
                         propertyId = reader.GetInt32("property_id");
                         string title = reader.GetString("title");
                         string imageUrl = reader.GetString("image_url");
-                        AddProperties(propertyId, title, imageUrl);
+                        int price = reader.GetInt32("price");
+                        AddProperties(propertyId, title, imageUrl,price);
                     }
                 }
             }
         }
 
-        private void AddProperties(int propertyId, string title, string imageUrl)
+        private void AddProperties(int propertyId, string title, string imageUrl,int price )
         {
-            Houses.Add(new House { ImagePath = imageUrl, Title = title, PropertyId = propertyId });
+            Houses.Add(new House { ImagePath = imageUrl, Title = title, PropertyId = propertyId,Price=price });
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
@@ -77,9 +80,11 @@ namespace RealEstateProject
             {
                 // Retrieve the propertyId from the Tag
                 int propertyId = (int)clickedBorder.Tag;
-
                 // Navigate to the DetailsPage
-                this.NavigationService.Navigate(new DetailsPage(propertyId));
+                if(userId.HasValue)
+                    this.NavigationService.Navigate(new DetailsPage(propertyId, userId.Value));
+                else
+                    this.NavigationService.Navigate(new DetailsPage(propertyId,0));
             }
         }
 
@@ -95,12 +100,6 @@ namespace RealEstateProject
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            LoginView loginView = new LoginView();
-            loginView.Show();
         }
 
         private void btnMaximize_Click(object sender, RoutedEventArgs e)

@@ -11,5 +11,6 @@ namespace RealEstateProject
         public string ImagePath { get; set; }
         public int PropertyId { get; set; }
         public string Title { get; set; }
+        public int Price { get; set; }
     }
 }

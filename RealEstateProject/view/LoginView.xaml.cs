@@ -68,11 +68,10 @@ namespace RealEstateProject.view
                         if (reader.Read())
                         {
                             int userId = Convert.ToInt32(reader["user_id"]);
-                            MessageBox.Show("Login successful!");
 
+                            MainWindow.UserId = userId; // Set this before creating the MainWindow
+                          
                             this.Hide();
-                            //HomeForm home = new HomeForm(userId);  // Navigate to Home Form with userId
-                            //home.Show();
                         }
                         else
                         {

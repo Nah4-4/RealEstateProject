@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace RealEstateProject
     /// </summary>
     public partial class DetailsPage : Page
     {
+        int userId;
         public ObservableCollection<Housedetails> housedetails { get; set; }
 
         private int propertyId;
@@ -29,8 +31,9 @@ namespace RealEstateProject
         private List<string> imageUrls = new List<string>();
 
         private string connectionString = "server=localhost;uid=root;pwd=ushallpass44;database=TestDB";
-        public DetailsPage(int propertyId)
+        public DetailsPage(int propertyId,int userId)
         {
+            this.userId = userId;
             InitializeComponent();
             housedetails = new ObservableCollection<Housedetails>();
             LoadPropertyDetails(propertyId);
@@ -40,11 +43,19 @@ namespace RealEstateProject
             }
         }
 
-        string labelTitle, labelPrice, labelBedrooms, labelBathrooms, labelSize, labelCity, labelDescription, labelSellerPhone, labelSellerName;
+        string  imageUrl,labelTitle, labelPrice, labelBedrooms, labelBathrooms, labelSize, labelCity, labelDescription, labelSellerPhone, labelSellerName;
+
+        private void btnNext_Click(object sender, RoutedEventArgs e)
+        {
+            currentImageIndex = (currentImageIndex + 1) % imageUrls.Count;
+            //imageUrl=imageUrls[currentImageIndex];
+            housedetails[0].ImagePath = imageUrls[currentImageIndex];
+
+        }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new HomePage());
+            this.NavigationService.Navigate(new HomePage(userId));
         }
 
         private void LoadPropertyDetails(int propertyId)
@@ -68,7 +79,8 @@ namespace RealEstateProject
                         {
                             // Set property details
                             labelTitle = "Title: " + reader["title"].ToString();
-                            labelPrice = "Price: $" + reader["price"].ToString();
+                            //imageUrl = reader.GetString("image_url");
+                            labelPrice = "$" + reader["price"].ToString();
                             labelBedrooms = "Bedrooms: " + reader["number_of_bedrooms"].ToString();
                             labelBathrooms = "Bathrooms: " + reader["number_of_bathrooms"].ToString();
                             labelSize = "Size: " + reader["size_in_sqft"].ToString() + " sqft";
@@ -87,27 +99,58 @@ namespace RealEstateProject
                         }
                     }
                 }
+
             }
-            AddProperties(labelTitle,labelPrice, labelBedrooms, labelBathrooms, labelSize, labelCity, labelDescription, labelSellerPhone, labelSellerName);
+            if (imageUrls.Count > 0)
+            {
+                imageUrl=imageUrls[0];
+                if (imageUrls.Count <= 1)
+                {
+                    nextbutton.Visibility = Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                MessageBox.Show("No images available for this property.");
+            }
+            AddProperties();
         }
-        private void AddProperties(string labelTitle, string labelPrice, string labelBedrooms, string labelBathrooms, string labelSize, string labelCity, string labelDescription, string labelSellerPhone, string labelSellerName)
+        private void AddProperties()
         {
-            housedetails.Add(new Housedetails { LabelTitle=labelTitle,LabelPrice=labelPrice,LabelBathrooms=labelBathrooms,LabelBedrooms=labelBedrooms,LabelSize=labelSize,LabelCity=labelCity,LabelDescription=labelDescription,LabelSellerName=labelSellerName,LabelSellerPhone=labelSellerPhone});
+            housedetails.Add(new Housedetails { ImagePath=imageUrl,LabelTitle=labelTitle,LabelPrice=labelPrice,LabelBathrooms=labelBathrooms,LabelBedrooms=labelBedrooms,LabelSize=labelSize,LabelCity=labelCity,LabelDescription=labelDescription,LabelSellerName=labelSellerName,LabelSellerPhone=labelSellerPhone});
         }
 
     }
-    public class Housedetails
+public class Housedetails : INotifyPropertyChanged
     {
-        public string ImagePath { get; set; }
+        private string _imagePath;
+        public string ImagePath
+        {
+            get { return _imagePath; }
+            set
+            {
+                _imagePath = value;
+                OnPropertyChanged(nameof(ImagePath));
+            }
+        }
+
         public int PropertyId { get; set; }
         public string LabelTitle { get; set; }
         public string LabelPrice { get; set; }
         public string LabelBedrooms { get; set; }
         public string LabelBathrooms { get; set; }
-        public string LabelSize{ get; set; }
+        public string LabelSize { get; set; }
         public string LabelCity { get; set; }
-        public string LabelDescription{ get; set; }
+        public string LabelDescription { get; set; }
         public string LabelSellerPhone { get; set; }
         public string LabelSellerName { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
+
 }

@@ -19,10 +19,24 @@ namespace RealEstateProject.view
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static int? UserId { get; set; } // Static property to store user ID
+
         public MainWindow()
         {
             InitializeComponent();
-            MainFrame.Navigate(new HomePage());
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            if (UserId.HasValue)
+            {
+                MainFrame.Navigate(new HomePage(UserId.Value));
+            }
+            else
+            {
+                MainFrame.Navigate(new HomePage());
+            }
         }
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
         {
@@ -40,6 +54,18 @@ namespace RealEstateProject.view
                 WindowState = WindowState.Normal;
             else
                 WindowState = WindowState.Maximized;
+        }
+
+        private void btnProfile_Click(object sender, RoutedEventArgs e)
+        {
+            if (UserId>0)
+                MainFrame.Navigate(new ProfilePage(UserId.Value));
+            else
+            {
+                LoginView loginView = new LoginView();
+                loginView.Show();
+            }
+
         }
     }
 }
