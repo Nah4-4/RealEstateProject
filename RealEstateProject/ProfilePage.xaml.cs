@@ -41,7 +41,7 @@ namespace RealEstateProject
         
         int userId;
 
-        private string connectionString = "server=localhost;uid=root;pwd=ushallpass44;database=TestDB";
+        private string connectionString = "server=localhost;uid=root;pwd=;database=TestDB";
 
         public ProfilePage(int userId)
         {
