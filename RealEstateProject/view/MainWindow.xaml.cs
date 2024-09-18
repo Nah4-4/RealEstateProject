@@ -24,20 +24,9 @@ namespace RealEstateProject.view
         public MainWindow()
         {
             InitializeComponent();
-            Initialize();
+            MainFrame.Navigate(new HomePage());
         }
-
-        private void Initialize()
-        {
-            if (UserId.HasValue)
-            {
-                MainFrame.Navigate(new HomePage(UserId.Value));
-            }
-            else
-            {
-                MainFrame.Navigate(new HomePage());
-            }
-        }
+  
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
@@ -66,6 +55,10 @@ namespace RealEstateProject.view
                 loginView.Show();
             }
 
+        }
+        public void gotoprof()
+        {
+            MainFrame.Navigate(new ProfilePage(UserId.Value));
         }
     }
 }

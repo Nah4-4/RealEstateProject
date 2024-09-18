@@ -127,6 +127,16 @@
                     FontWeight="Bold" 
                     Width="59" 
                     Height="30" Click="btnBack_Click"/>
+                <Button x:Name="btnRequest"                          
+                    BorderThickness="0"
+                    Content="Request"
+                    Foreground="Black"
+                    FontSize="12"
+                    FontFamily="Montserrat"
+                    Cursor="Hand"
+                    FontWeight="Bold" 
+                    Width="59" 
+                    Height="30" Click="btnRequest_Click"/>
             </StackPanel>
             
         </ScrollViewer>

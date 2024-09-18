@@ -21,7 +21,7 @@ namespace RealEstateProject.view
     /// </summary>
     public partial class LoginView : Window
     {
-        private string connectionString = "server=localhost;uid=root;pwd=;database=TestDB";
+        private string connectionString = "server=localhost;uid=root;pwd="+ Environment.GetEnvironmentVariable("PASSWORD") + ";database=TestDB";
 
         public LoginView()
         {
@@ -70,8 +70,14 @@ namespace RealEstateProject.view
                             int userId = Convert.ToInt32(reader["user_id"]);
 
                             MainWindow.UserId = userId; // Set this before creating the MainWindow
-                          
                             this.Hide();
+                            var mainWindow = Application.Current.MainWindow as MainWindow;
+
+                            // Call the navigation method
+                            if (mainWindow != null)
+                            {
+                                mainWindow.gotoprof(); // or "Frame2"
+                            }
                         }
                         else
                         {

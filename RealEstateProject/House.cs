@@ -8,9 +8,11 @@ namespace RealEstateProject
 {       
     public class House
     {
-        public string ImagePath { get; set; }
-        public int PropertyId { get; set; }
+       public int PropertyId { get; set; }
         public string Title { get; set; }
-        public int Price { get; set; }
+        public decimal Price { get; set; }
+        public int SizeInSqft { get; set; }
+        public string Address { get; set; }
+        public string ImagePath { get; set; }
     }
 }

@@ -30,8 +30,8 @@ namespace RealEstateProject
         private int currentImageIndex = 0;
         private List<string> imageUrls = new List<string>();
 
-        private string connectionString = "server=localhost;uid=root;pwd=;database=TestDB";
-        public DetailsPage(int propertyId,int userId)
+        private string connectionString = "server=localhost;uid=root;pwd=" + Environment.GetEnvironmentVariable("PASSWORD") + ";database=TestDB";
+        public DetailsPage(int propertyId, int userId)
         {
             this.userId = userId;
             InitializeComponent();
@@ -43,7 +43,73 @@ namespace RealEstateProject
             }
         }
 
-        string  imageUrl,labelTitle, labelPrice, labelBedrooms, labelBathrooms, labelSize, labelCity, labelDescription, labelSellerPhone, labelSellerName;
+        string imageUrl, labelTitle, labelPrice, labelBedrooms, labelBathrooms, labelSize, labelCity, labelDescription, labelSellerPhone, labelSellerName;
+
+        private void btnRequest_Click(object sender, RoutedEventArgs e)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // Fetch the seller_id based on the property_id
+                string sellerQuery = "SELECT user_id FROM Property WHERE property_id = @propertyId";
+                int sellerId;
+
+                using (MySqlCommand sellerCommand = new MySqlCommand(sellerQuery, connection))
+                {
+                    sellerCommand.Parameters.AddWithValue("@propertyId", propertyId);
+                    sellerId = Convert.ToInt32(sellerCommand.ExecuteScalar());
+                }
+
+                // Check if the current user is the seller
+                if (sellerId == userId)
+                {
+                    MessageBox.Show("You cannot request a visit for a property that you listed.");
+                    return; // Exit the method to prevent the request from being submitted
+                }
+
+                // Check if a request already exists for this property and user
+                string checkRequestQuery = @"
+                SELECT COUNT(*) 
+                FROM Requests 
+                WHERE property_id = @propertyId AND buyer_id = @buyerId";
+
+                using (MySqlCommand checkRequestCommand = new MySqlCommand(checkRequestQuery, connection))
+                {
+                    checkRequestCommand.Parameters.AddWithValue("@propertyId", propertyId);
+                    checkRequestCommand.Parameters.AddWithValue("@buyerId", userId);
+
+                    int existingRequestCount = Convert.ToInt32(checkRequestCommand.ExecuteScalar());
+                    if (existingRequestCount > 0)
+                    {
+                        MessageBox.Show("You have already requested a visit for this property.");
+                        return;
+                    }
+                }
+
+                // Insert the request into the Requests table if the user is not the seller and hasn't already requested
+                string insertQuery = @"
+                INSERT INTO Requests (property_id, buyer_id, seller_id, status) 
+                VALUES (@propertyId, @buyerId, @sellerId, 'pending')";
+
+                using (MySqlCommand command = new MySqlCommand(insertQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@propertyId", propertyId);
+                    command.Parameters.AddWithValue("@buyerId", userId); // The current user requesting the visit
+                    command.Parameters.AddWithValue("@sellerId", sellerId); // The owner of the property
+
+                    try
+                    {
+                        command.ExecuteNonQuery();
+                        MessageBox.Show("Visit request submitted successfully.");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
+                }
+            }
+        }  
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {

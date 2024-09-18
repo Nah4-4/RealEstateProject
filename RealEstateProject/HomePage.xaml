@@ -11,14 +11,36 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="70"/>
+            <RowDefinition Height="50"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <Line X1="0" Y1="70" X2="1200" Y2="70" Stroke="Black" StrokeThickness="2" />
+            <Line X1="0" Y1="50" X2="1200" Y2="50" Stroke="Black" StrokeThickness="2" />
+        </Grid>
+        <Grid Grid.Row="1" HorizontalAlignment="Left">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBox x:Name="textBoxSearch" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+                <ComboBox x:Name="comboBoxSearchAttribute" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120">
+                    <ComboBoxItem Content="Title"/>
+                    <ComboBoxItem Content="Price"/>
+                    <ComboBoxItem Content="Size"/>
+                    <ComboBoxItem Content="Address"/>
+                </ComboBox>
+                <Button Content="search" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ButtonSearch_Click"/>
+                <ComboBox x:Name="comboBoxSortAttribute" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120">
+                    <ComboBoxItem Content="Quick Sort by Price" />
+                    <ComboBoxItem Content="Quick Sort by Size" />
+                </ComboBox>
+                <Button Content="Sort" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ButtonSort_Click"/>
+
+            </StackPanel>
         </Grid>
 
-        <Grid Grid.Row="1" HorizontalAlignment="Right">
+        <Grid Grid.Row="2" HorizontalAlignment="Right">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1000"/>
                 <ColumnDefinition />
@@ -50,14 +72,36 @@
                                         </Border.Background>
                                     </Border>
                                     <!--text description-->
-                                    <TextBlock Text="{Binding Title}" 
+                                    <TextBlock
                                            HorizontalAlignment="Center" 
                                            VerticalAlignment="Top"
-                                           Margin="5"/>
-                                    <TextBlock Text="{Binding Price}" 
+                                           Margin="5">
+                                        <TextBlock.Text>
+                                            <Binding Path="Title" StringFormat="Title: {0}" />
+                                        </TextBlock.Text>       
+                                    </TextBlock><TextBlock
                                            HorizontalAlignment="Center" 
                                            VerticalAlignment="Top"
-                                           Margin="5"/>
+                                           Margin="5">
+                                        <TextBlock.Text>
+                                            <Binding Path="Price" StringFormat="${0}" />
+                                        </TextBlock.Text>       
+                                    </TextBlock><TextBlock
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Top"
+                                           Margin="5">
+                                        <TextBlock.Text>
+                                            <Binding Path="SizeInSqft" StringFormat="Size: {0}" />
+                                        </TextBlock.Text>       
+                                    </TextBlock><TextBlock
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Top"
+                                           Margin="5">
+                                        <TextBlock.Text>
+                                            <Binding Path="Address" StringFormat="Address: {0}" />
+                                        </TextBlock.Text>       
+                                    </TextBlock>
+                                 
 
                                 </StackPanel>
                                 <Border.Style>

@@ -25,7 +25,7 @@ namespace RealEstateProject
     {
         private List<string> imagePaths = new List<string>();
         int userId;
-        private string connectionString = "server=localhost;uid=root;pwd=;database=TestDB";
+        private string connectionString = "server=localhost;uid=root;pwd="+ Environment.GetEnvironmentVariable("PASSWORD") + ";database=TestDB";
         public AddListing(int userId)
         {
             this.userId = userId;

@@ -21,7 +21,7 @@ namespace RealEstateProject.view
     /// </summary>
     public partial class SignupView : Window
     {
-        private string connectionString = "server=localhost;uid=root;pwd=;database=TestDB";
+        private string connectionString = "server=localhost;uid=root;pwd="+ Environment.GetEnvironmentVariable("PASSWORD") + ";database=TestDB";
 
         public SignupView()
         {
