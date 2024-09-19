@@ -121,20 +121,7 @@ namespace RealEstateProject
             {
                 listBoxVisitRequests.ItemsSource = visitRequestQueue.Select(request =>
                     $"Request for {request.PropertyTitle} from {request.BuyerName} at {request.RequestTime}").ToList();
-            }
-
-            //listBoxVisitRequests.ItemsSource = visitRequestQueue.Select(request =>$"Request for {request.PropertyTitle} from {request.BuyerName} at {request.RequestTime}").ToList();
-
-            //listBoxVisitRequests.Items.Clear();
-            //foreach (var request in visitRequestQueue)
-            //{
-            //    listBoxVisitRequests.Items.Add($"Request for {request.PropertyTitle} from {request.BuyerName} at {request.RequestTime}");
-            //}
-
-            //if (visitRequestQueue.Count == 0)
-            //{
-            //    listBoxVisitRequests.Items.Add("No pending requests.");
-            //}
+            }          
         }
         private void LoadActiveListings()
         {
@@ -191,18 +178,42 @@ namespace RealEstateProject
                 var removedRequest = visitRequestQueue.Dequeue();  // Remove from queue
                 removedRequestsQueue.Enqueue(removedRequest);  // Keep track of removed requests to update DB later
                 DisplayRequestsFromQueue();  // Update UI
+                ProfileForm_Closing();
+
             }
             else
             {
                 MessageBox.Show("No more requests to process.");
             }
         }
+        private void ProfileForm_Closing()
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
 
+                // Process each removed request and update the database
+                while (removedRequestsQueue.Count > 0)
+                {
+                    var removedRequest = removedRequestsQueue.Dequeue();
+
+                    string updateQuery = "UPDATE Requests SET status = 'done' WHERE property_id = (SELECT property_id FROM Property WHERE title = @title) AND buyer_id = (SELECT user_id FROM Users WHERE name = @buyerName)";
+
+                    using (MySqlCommand command = new MySqlCommand(updateQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@title", removedRequest.PropertyTitle);
+                        command.Parameters.AddWithValue("@buyerName", removedRequest.BuyerName);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
         private void ButtonRefreshRequests_Click(object sender, RoutedEventArgs e)
         {        
             LoadVisitRequests();         
         }
     }
+
 
 
     public class Profile
