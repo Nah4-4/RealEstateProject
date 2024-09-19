@@ -16,3 +16,6 @@ namespace RealEstateProject
         public string ImagePath { get; set; }
     }
 }
+
+
+

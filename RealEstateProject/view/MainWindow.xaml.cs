@@ -35,16 +35,7 @@ namespace RealEstateProject.view
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
-        }
-
-        private void btnMaximize_Click(object sender, RoutedEventArgs e)
-        {
-            if (WindowState == WindowState.Maximized)
-                WindowState = WindowState.Normal;
-            else
-                WindowState = WindowState.Maximized;
-        }
-
+        }  
         private void btnProfile_Click(object sender, RoutedEventArgs e)
         {
             if (UserId>0)

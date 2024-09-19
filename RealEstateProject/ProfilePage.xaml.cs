@@ -130,7 +130,7 @@ namespace RealEstateProject
                 connection.Open();
 
                 // Load active listings
-                string activeListingsQuery = "SELECT title FROM Property WHERE user_id = @userId AND status = 'available'";
+                string activeListingsQuery = "SELECT property_id, title FROM Property WHERE user_id = @userId AND status = 'available'";
                 using (MySqlCommand command = new MySqlCommand(activeListingsQuery, connection))
                 {
                     command.Parameters.AddWithValue("@userId", userId);
@@ -142,6 +142,7 @@ namespace RealEstateProject
                         {
                             ActiveListing listing = new ActiveListing
                             {
+                                PropertyId = reader.GetInt32("property_id"),
                                 Title = reader["title"].ToString()
                             };
                             activeListingsStack.Push(listing); // Push the active listing onto the stack
@@ -153,12 +154,102 @@ namespace RealEstateProject
             }
         }
 
+        
+        // Mark a property as sold
+        private void MarkPropertyAsSold(int propertyId)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                string updateQuery = "UPDATE Property SET status = 'sold' WHERE property_id = @propertyId";
+
+                using (MySqlCommand command = new MySqlCommand(updateQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@propertyId", propertyId);
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            // Update stack and reload listings
+            UpdateActiveListingsStack(propertyId, "sold");
+            LoadActiveListings();
+        }
+
+        // Delete a property
+        //private void DeleteProperty(int propertyId)
+        //{
+        //    using (MySqlConnection connection = new MySqlConnection(connectionString))
+        //    {
+        //        connection.Open();
+        //        string deleteQuery = "DELETE FROM Property WHERE property_id = @propertyId";
+
+        //        using (MySqlCommand command = new MySqlCommand(deleteQuery, connection))
+        //        {
+        //            command.Parameters.AddWithValue("@propertyId", propertyId);
+        //            command.ExecuteNonQuery();
+        //        }
+        //    }
+
+        //    // Update stack and reload listings
+        //    UpdateActiveListingsStack(propertyId, "delete");
+        //    LoadActiveListings();
+        //}
+
+        // Update the stack after marking a property as sold or deleting it
+        private void UpdateActiveListingsStack(int propertyId, string action)
+        {
+            Stack<ActiveListing> tempStack = new Stack<ActiveListing>();
+
+            while (activeListingsStack.Count > 0)
+            {
+                ActiveListing listing = activeListingsStack.Pop();
+
+                if (listing.PropertyId == propertyId && action == "sold")
+                {
+                    // Don't push to tempStack; property is marked as sold
+                }
+                else if (listing.PropertyId == propertyId && action == "delete")
+                {
+                    // Don't push to tempStack; property is deleted
+                }
+                else
+                {
+                    tempStack.Push(listing);
+                }
+            }
+
+            // Restore the stack with updated listings
+            while (tempStack.Count > 0)
+            {
+                activeListingsStack.Push(tempStack.Pop());
+            }
+        }
+
         // Display the user's active listings from the stack
         private void DisplayActiveListingsFromStack()
         {
-            //listBoxActiveListings.Items.Clear();
+            listBoxActiveListings.Items.Clear();
             //listBoxActiveListings.Items.Add("Your Active Listings:");
-            listBoxActiveListings.ItemsSource = activeListingsStack.Select(listing => listing.Title).ToList();
+
+            // Display and keep listings in a temporary stack to preserve original stack order
+            Stack<ActiveListing> tempStack = new Stack<ActiveListing>();
+            while (activeListingsStack.Count > 0)
+            {
+                ActiveListing listing = activeListingsStack.Pop();
+                tempStack.Push(listing); // Push to temporary stack
+                listBoxActiveListings.Items.Add($"{listing.PropertyId}: {listing.Title}");
+            }
+
+            // Restore the original stack order
+            while (tempStack.Count > 0)
+            {
+                activeListingsStack.Push(tempStack.Pop());
+            }
+
+            if (listBoxActiveListings.Items.Count == 0)
+            {
+                listBoxActiveListings.Items.Add("No active listings.");
+            }
         }
 
         private void AddListing_Button_Click(object sender, RoutedEventArgs e)
@@ -212,6 +303,28 @@ namespace RealEstateProject
         {        
             LoadVisitRequests();         
         }
+        private void listBoxActiveListings_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (listBoxActiveListings.SelectedIndex < 0)
+            {
+                MessageBox.Show("Please select a valid property from the list.");
+                return;
+            }
+
+            string selectedItem = listBoxActiveListings.SelectedItem.ToString();
+            int propertyId = int.Parse(selectedItem.Split(':')[0]); // Get property_id from the selected item
+
+            MessageBoxResult result = MessageBox.Show("Do you want to mark this property as sold? ", "Action", MessageBoxButton.OKCancel);
+
+            if (result == MessageBoxResult.OK)
+            {
+                MarkPropertyAsSold(propertyId);
+            }
+            else if (result == MessageBoxResult.Cancel)
+            {
+               
+            }
+        }
     }
 
 
@@ -231,6 +344,7 @@ namespace RealEstateProject
     // Define ActiveListing class to store active listing information
     public class ActiveListing
     {
+        public int PropertyId { get; set; } // Property ID
         public string Title { get; set; }
     }
 }

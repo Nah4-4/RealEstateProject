@@ -11,8 +11,8 @@
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="100,20,100,0">
-                <Grid Width="600" HorizontalAlignment="Left">
-                    <Border Height="400" Width="600" HorizontalAlignment="Left" Margin="40,0,0,0" CornerRadius="7,7,7,7">
+                <Grid HorizontalAlignment="Left">
+                    <Border Height="470" Width="700" HorizontalAlignment="Left" Margin="40,0,0,0" CornerRadius="7,7,7,7">
                         <Border.Background>
                             <ImageBrush Stretch="Fill" ImageSource="{Binding ImagePath}"/>
                         </Border.Background>
@@ -24,13 +24,8 @@
                             Click="btnNext_Click" 
                             FontFamily="NSimSun" 
                             FontWeight="Bold" BorderBrush="{x:Null}" >
-                        <TextBlock Text=">" 
-                               Foreground="White" 
-                               FontSize="24" 
-                               FontFamily="MS PGothic" Margin="2,0,0,0" 
-                                />
                         <Button.Style>
-                            <Style TargetType="Button">
+                            <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="#A5000000"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
@@ -40,7 +35,7 @@
                             </Style>
                         </Button.Style>
                         <Button.Template>
-                            <ControlTemplate TargetType="Button">
+                            <ControlTemplate TargetType="{x:Type Button}">
                                 <Border Width="40" Height="40" CornerRadius="25" Background="{TemplateBinding Background}">
                                     <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 </Border>
@@ -53,93 +48,178 @@
                                   BlurRadius="20" 
                                   Opacity="0.9"/>
                         </Button.Effect>
+                        <TextBlock Text="&gt;" 
+                               Foreground="White" 
+                               FontSize="24" 
+                               FontFamily="MS PGothic" Margin="2,0,0,0" 
+                                />
                     </Button>
                 </Grid>
-                <!-- <TextBlock Text="{Binding LabelTitle}"
-                   Background="AliceBlue"
-                   FontSize="12"
-                   FontWeight="Medium"
-                   FontFamily="Montserrat"                             
-                   Margin="0,5,0,0"/>-->
-                <TextBlock 
+                <Grid Height="230" Margin="50,10,0,0">
+                    <Border BorderBrush="LightGray" BorderThickness="1" CornerRadius="20" Margin="0,0,467,0">
+                        <Grid>
+                            <TextBlock 
                    Text="{Binding LabelPrice}"
-                   Background="AliceBlue"
-                   FontSize="24"
+                   FontSize="32"
                    FontWeight="Medium"
-                   FontFamily="Montserrat"                             
-                   Margin="0,15,0,0"/>
-                <TextBlock Text="{Binding LabelBedrooms}"
-                   Background="AliceBlue"
-                   FontSize="12"
+                   FontFamily="Arial Rounded MT Bold"                             
+                   Margin="0,25,10,10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Width="300" Height="30"/>
+                            <TextBlock Text="{Binding LabelBedrooms}"
+                   FontSize="14"
+                   HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
                    FontWeight="Medium"
+                    Width="300"
                    FontFamily="Montserrat"                             
-                   Margin="0,5,0,0"/>
-                <TextBlock Text="{Binding LabelBathrooms}"
-                 Background="AliceBlue"
+                   Margin="20,80,0,0" Height="30"/>
+                            <TextBlock Text="{Binding LabelBathrooms}"
+                   FontSize="14"
+                      VerticalAlignment="Top"
+                               HorizontalAlignment="Left"
+                   FontWeight="Medium"
+                   FontFamily="Montserrat"     
+                           Width="300"
+                   Margin="100,80,0,0" Height="30"/>
+                            <TextBlock Text="{Binding LabelSize}"
+                   FontSize="14"
+                   FontWeight="Medium"
+                  HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                     Width="290"
+                   FontFamily="Montserrat"                             
+                   Margin="200,80,0,0" Height="30"/>
+                            <TextBlock Text="{Binding LabelCity}"
+                   FontSize="14"
+                   FontWeight="Medium"
+                   FontFamily="Montserrat"   
+                    HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                    Width="300"
+                   Margin="20,110,0,0" Height="30"/>
+                            <TextBlock Text="{Binding LabelDescription}"
+                   FontSize="14"
+                   FontWeight="Medium"
+                    HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                    Width="300"
+                   FontFamily="Montserrat"                             
+                   Margin="20,140,0,0" Height="30"/>
+                            <TextBlock Text="{Binding Date}"
+                   FontSize="14"
+                   FontWeight="Medium"
+                    HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                    Width="300"
+                   FontFamily="Montserrat"                             
+                   Margin="20,170,0,0" Height="30"/>
+                            <TextBlock Text="{Binding Property_Type}"
+                   FontSize="14"
+                   FontWeight="Medium"
+                    HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                    Width="300"
+                   FontFamily="Montserrat"                             
+                   Margin="20,200,0,0" Height="30"/>
+                            <TextBlock Text="{Binding Address}"
+                   FontSize="14"
+                   FontWeight="Medium"
+                    HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                    Width="300"
+                   FontFamily="Montserrat"                             
+                   Margin="140,110,0,0" Height="30"/>
+                        </Grid>
+                    </Border>
 
-                   FontSize="12"
+                    <TextBlock Text="{Binding LabelSellerPhone}"
+                   FontSize="14"
+                   FontWeight="Medium"
+                  Width="300"
+                  HorizontalAlignment="Left"
+                   FontFamily="Montserrat"                             
+                   Margin="746,-271,0,471" Height="30"/>
+                    <TextBlock Text="{Binding LabelSellerName}"
+                   FontSize="14"
+                     Width="300"
+                    HorizontalAlignment="Left"
                    FontWeight="Medium"
                    FontFamily="Montserrat"                             
-                   Margin="0,5,0,0"/>
-                <TextBlock Text="{Binding LabelSize}"
-                   Background="AliceBlue"
-                   FontSize="12"
-                   FontWeight="Medium"
-                   FontFamily="Montserrat"                             
-                   Margin="0,5,0,0"/>
-                <TextBlock Text="{Binding LabelCity}"
-                   Background="AliceBlue"
-                   FontSize="12"
-                   FontWeight="Medium"
-                   FontFamily="Montserrat"                             
-                   Margin="0,5,0,0"/>
-                <TextBlock Text="{Binding LabelDescription}"
-                   Background="AliceBlue"
-                   FontSize="12"
-                   FontWeight="Medium"
-                   FontFamily="Montserrat"                             
-                   Margin="0,5,0,0"/>
-                <TextBlock Text="{Binding LabelSellerPhone}"
-                   Background="AliceBlue"
-                   FontSize="12"
-                   FontWeight="Medium"
-                   FontFamily="Montserrat"                             
-                   Margin="0,5,0,0"/>
-                <TextBlock Text="{Binding LabelSellerName}"
-                   Background="AliceBlue"
-                   FontSize="12"
-                   FontWeight="Medium"
-                   FontFamily="Montserrat"                             
-                   Margin="0,5,0,0"/>
-                <TextBlock Text="nah"
-                   Background="AliceBlue"
-                   FontSize="12"
-                   FontWeight="Medium"
-                   FontFamily="Montserrat"                             
-                   Margin="0,5,0,0"/>
-                <Button x:Name="btnBack"                          
-                    BorderThickness="0"
-                    Content="Back"
-                    Foreground="Black"
-                    FontSize="12"
-                    FontFamily="Montserrat"
-                    Cursor="Hand"
-                    FontWeight="Bold" 
-                    Width="59" 
-                    Height="30" Click="btnBack_Click"/>
-                <Button x:Name="btnRequest"                          
+                   Margin="746,-306,0,506" Height="30"/>
+                    
+                    <Button x:Name="btnRequest"                          
                     BorderThickness="0"
                     Content="Request"
                     Foreground="Black"
                     FontSize="12"
                     FontFamily="Montserrat"
                     Cursor="Hand"
-                    FontWeight="Bold" 
-                    Width="59" 
-                    Height="30" Click="btnRequest_Click"/>
+                    Click="btnRequest_Click" Margin="770,-236,85,436">
+
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="LightGray"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FF8BDFF6"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Width="70" Height="30"
+                    CornerRadius="10"
+                    Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
+
+                <Button x:Name="btnBack"                          
+                    BorderThickness="0"
+                    Content="Back"
+                    Foreground="Black"
+                    FontSize="12"
+                    FontFamily="Montserrat"
+                    Cursor="Hand"                           
+                    Margin="0,35,0,10"
+                    Width="70" 
+                    Height="30" Click="btnBack_Click">
+
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="LightGray"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF8BDFF6"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Width="70" Height="30"
+                    CornerRadius="10"
+                    Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+
             </StackPanel>
-            
+
         </ScrollViewer>
-        
+
     </Grid>
 </Page>

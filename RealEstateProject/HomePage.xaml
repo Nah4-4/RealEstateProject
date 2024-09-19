@@ -11,41 +11,32 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <Line X1="0" Y1="50" X2="1200" Y2="50" Stroke="Black" StrokeThickness="2" />
-        </Grid>
-        <Grid Grid.Row="1" HorizontalAlignment="Left">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <StackPanel>
-                <TextBox x:Name="textBoxSearch" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
-                <ComboBox x:Name="comboBoxSearchAttribute" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120">
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="textBoxSearch" Margin="40,0,0,0" VerticalAlignment="Top" TextWrapping="NoWrap" Width="120" Height="20" />
+                <ComboBox x:Name="comboBoxSearchAttribute" Margin="20,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Width="120">
                     <ComboBoxItem Content="Title"/>
                     <ComboBoxItem Content="Price"/>
                     <ComboBoxItem Content="Size"/>
                     <ComboBoxItem Content="Address"/>
                 </ComboBox>
-                <Button Content="search" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ButtonSearch_Click"/>
-                <ComboBox x:Name="comboBoxSortAttribute" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120">
+                <Button Content="Search" Margin="30,0,0,0" VerticalAlignment="Top" Click="ButtonSearch_Click" Height="20" Width="45"/>
+                <Label Content="Sort By" Margin="30,0,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="comboBoxSortAttribute" Margin="5,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Width="120" DropDownClosed="comboBoxSortAttribute_DropDownClosed">
                     <ComboBoxItem Content="Quick Sort by Price" />
                     <ComboBoxItem Content="Quick Sort by Size" />
                 </ComboBox>
-                <Button Content="Sort" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ButtonSort_Click"/>
-
             </StackPanel>
         </Grid>
 
         <Grid Grid.Row="2" HorizontalAlignment="Right">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1000"/>
+                <ColumnDefinition Width="1200"/>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Line Stroke="Black" StrokeThickness="2" Y2="600" />
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding Houses}" HorizontalAlignment="Stretch">
                     <ItemsControl.ItemsPanel>
@@ -57,16 +48,16 @@
                         <DataTemplate>
                             <Border BorderBrush="#FF707070" 
                                         CornerRadius="10"
-                                        BorderThickness="0.7" 
+                                        BorderThickness="0" 
                                         MouseDown="Border_MouseDown" 
-                                        Height="300" Width="300" 
-                                        Margin="10" 
+                                        Height="350" Width="370" 
+                                        Margin="20,10,0,10" 
                                         HorizontalAlignment="Left"
-                                            Tag="{Binding PropertyId}">
+                                            Tag="{Binding PropertyId}" Background="White">
                                 <!-- Bind propertyId -->
                                 <StackPanel>
                                     <!--image curve-->
-                                    <Border Height="200" HorizontalAlignment="Stretch" CornerRadius="10,10,0,0">
+                                    <Border Height="230" HorizontalAlignment="Stretch" CornerRadius="10,10,0,0">
                                         <Border.Background>
                                             <ImageBrush Stretch="Fill" ImageSource="{Binding ImagePath}"/>
                                         </Border.Background>
@@ -115,6 +106,13 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
+                                <Border.Effect>
+                                    <DropShadowEffect Color="Black" 
+                                      Direction="320" 
+                                      ShadowDepth="0" 
+                                      BlurRadius="20" 
+                                      Opacity="0.4"/>
+                                </Border.Effect>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

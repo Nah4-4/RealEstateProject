@@ -47,7 +47,7 @@ namespace RealEstateProject
         }
 
         string imageUrl, labelTitle, labelPrice, labelBedrooms, labelBathrooms, labelSize, labelCity, labelDescription, labelSellerPhone, labelSellerName;
-
+        string property_type, address, date;
         private void btnRequest_Click(object sender, RoutedEventArgs e)
         {
             if (userId == 0)
@@ -71,7 +71,6 @@ namespace RealEstateProject
                     }
 
                     // Check if the current user is the seller
-                        MessageBox.Show("sell " + propertyId);
                     if (sellerId == userId)
                     {
                         MessageBox.Show("You cannot request a visit for a property that you listed.");
@@ -139,12 +138,11 @@ namespace RealEstateProject
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "SELECT p.title, p.price, p.city, p.description, p.number_of_bedrooms, " +
-                               "p.number_of_bathrooms, p.size_in_sqft, u.name as seller_name, u.phone_number as seller_phone, i.image_url " +
-                               "FROM Property p " +
-                               "JOIN Users u ON p.user_id = u.user_id " +
-                               "LEFT JOIN PropertyImages i ON p.property_id = i.property_id " +
-                               "WHERE p.property_id = @propertyId";
+                string query = @"SELECT p.title, p.price, p.city, p.description, p.number_of_bedrooms, p.number_of_bathrooms, p.size_in_sqft, p.address,p.property_type,
+                                p.listed_at,u.name as seller_name, u.phone_number as seller_phone, i.image_url
+                                FROM Property p JOIN Users u ON p.user_id = u.user_id
+                               LEFT JOIN PropertyImages i ON p.property_id = i.property_id
+                               WHERE p.property_id = @propertyId";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
@@ -157,11 +155,14 @@ namespace RealEstateProject
                             labelTitle = "Title: " + reader["title"].ToString();
                             //imageUrl = reader.GetString("image_url");
                             labelPrice = "$" + reader["price"].ToString();
-                            labelBedrooms = "Bedrooms: " + reader["number_of_bedrooms"].ToString();
-                            labelBathrooms = "Bathrooms: " + reader["number_of_bathrooms"].ToString();
-                            labelSize = "Size: " + reader["size_in_sqft"].ToString() + " sqft";
+                            labelBedrooms = reader["number_of_bedrooms"].ToString()+" Bed";
+                            labelBathrooms = reader["number_of_bathrooms"].ToString()+" Baths";
+                            labelSize =  reader["size_in_sqft"].ToString() + " sqft";
                             labelCity = "City: " + reader["city"].ToString();
                             labelDescription = "Description: " + reader["description"].ToString();
+                            address = "Address: " + reader["address"].ToString();
+                            date = "Date Listed: " + reader["listed_at"].ToString();
+                            property_type = "Property Type: " + reader["property_type"].ToString();
 
                             // Set seller info
                             labelSellerName = "Seller: " + reader["seller_name"].ToString();
@@ -193,7 +194,22 @@ namespace RealEstateProject
         }
         private void AddProperties()
         {
-            housedetails.Add(new Housedetails { ImagePath=imageUrl,LabelTitle=labelTitle,LabelPrice=labelPrice,LabelBathrooms=labelBathrooms,LabelBedrooms=labelBedrooms,LabelSize=labelSize,LabelCity=labelCity,LabelDescription=labelDescription,LabelSellerName=labelSellerName,LabelSellerPhone=labelSellerPhone});
+            housedetails.Add(new Housedetails
+            {
+                ImagePath = imageUrl,
+                LabelTitle = labelTitle,
+                LabelPrice = labelPrice,
+                LabelBathrooms = labelBathrooms,
+                LabelBedrooms = labelBedrooms,
+                LabelSize = labelSize,
+                LabelCity = labelCity,
+                LabelDescription = labelDescription,
+                LabelSellerName = labelSellerName,
+                LabelSellerPhone = labelSellerPhone,
+                Property_Type = property_type,
+                Address = address,
+                Date = date
+            });
         }
 
     }
@@ -220,6 +236,10 @@ public class Housedetails : INotifyPropertyChanged
         public string LabelDescription { get; set; }
         public string LabelSellerPhone { get; set; }
         public string LabelSellerName { get; set; }
+
+        public string Property_Type { get; set; }
+        public string Address { get; set; }
+        public string Date { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

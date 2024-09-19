@@ -29,11 +29,7 @@ Foreground="Black"
                   VerticalContentAlignment="Center"
                   Margin="0,5,0,0"
                   Padding="20,0,0,0">
-                    <TextBox.Background>
-                        <ImageBrush ImageSource="/Images/user-icon.png"
-                    Stretch="None"
-                    AlignmentX="Left"/>
-                    </TextBox.Background>
+                  
                 </TextBox>
 
                 <TextBlock Text="Description"
@@ -55,11 +51,7 @@ Foreground="Black"
                   VerticalContentAlignment="Center"
                   Margin="0,5,0,0"
                   Padding="20,0,0,0">
-                    <TextBox.Background>
-                        <ImageBrush ImageSource="/Images/user-icon.png"
-                    Stretch="None"
-                    AlignmentX="Left"/>
-                    </TextBox.Background>
+                   
                 </TextBox>
 
                 <TextBlock Text="Price"
@@ -81,11 +73,7 @@ Foreground="Black"
                   VerticalContentAlignment="Center"
                   Margin="0,5,0,0"
                   Padding="20,0,0,0">
-                    <TextBox.Background>
-                        <ImageBrush ImageSource="/Images/user-icon.png"
-                    Stretch="None"
-                    AlignmentX="Left"/>
-                    </TextBox.Background>
+                   
                 </TextBox>
 
                 <TextBlock Text="Bedrooms"
@@ -107,11 +95,7 @@ Foreground="Black"
                   VerticalContentAlignment="Center"
                   Margin="0,5,0,0"
                   Padding="20,0,0,0">
-                    <TextBox.Background>
-                        <ImageBrush ImageSource="/Images/user-icon.png"
-                    Stretch="None"
-                    AlignmentX="Left"/>
-                    </TextBox.Background>
+                   
                 </TextBox>
 
                 <TextBlock Text="Bathrooms"
@@ -133,11 +117,7 @@ Foreground="Black"
                   VerticalContentAlignment="Center"
                   Margin="0,5,0,0"
                   Padding="20,0,0,0">
-                    <TextBox.Background>
-                        <ImageBrush ImageSource="/Images/user-icon.png"
-                    Stretch="None"
-                    AlignmentX="Left"/>
-                    </TextBox.Background>
+                   
                 </TextBox>
 
                 <TextBlock Text="Size"
@@ -159,11 +139,7 @@ Foreground="Black"
                     VerticalContentAlignment="Center"
                     Margin="0,5,0,0"
                     Padding="20,0,0,0">
-                    <TextBox.Background>
-                        <ImageBrush ImageSource="/Images/user-icon.png"
-                        Stretch="None"
-                        AlignmentX="Left"/>
-                    </TextBox.Background>
+                   
                 </TextBox>
 
 
@@ -186,11 +162,7 @@ Foreground="Black"
                   VerticalContentAlignment="Center"
                   Margin="0,5,0,0"
                   Padding="20,0,0,0">
-                    <TextBox.Background>
-                        <ImageBrush ImageSource="/Images/user-icon.png"
-                    Stretch="None"
-                    AlignmentX="Left"/>
-                    </TextBox.Background>
+                   
                 </TextBox>
 
             </StackPanel>
@@ -219,11 +191,7 @@ Foreground="Black"
                   VerticalContentAlignment="Center"
                   Margin="0,5,0,0"
                   Padding="20,0,0,0" Width="350" HorizontalAlignment="Left">
-                    <TextBox.Background>
-                        <ImageBrush ImageSource="/Images/user-icon.png"
-                    Stretch="None"
-                    AlignmentX="Left"/>
-                    </TextBox.Background>
+                   
                 </TextBox>
 
                 <TextBlock Text="Type"
@@ -234,7 +202,7 @@ Foreground="Black"
                     Margin="0,25,0,0"/>
                 <ComboBox x:Name="CBType" Width="200" HorizontalAlignment="Left" Margin="20,10,0,0">
                     <ComboBoxItem Content="Apartment"/>
-                    <ComboBoxItem Content="house"/>
+                    <ComboBoxItem Content="House"/>
                     <ComboBoxItem Content="Condo"/>
                 </ComboBox>
                 <WrapPanel x:Name="ImagePreviewPanel" Margin="0,20,10,10" Orientation="Horizontal" Width="420">
@@ -248,6 +216,28 @@ Foreground="Black"
                 <Button Content="Add Image" Click="AddImagebtn_Click" Width="80"/>
             </StackPanel>
         </Grid>
-        <Button Content="Submit" HorizontalAlignment="Left" Margin="555,587,0,0" VerticalAlignment="Top" Click="buttonSubmit_Click"/>
+        <Button Content="Submit" HorizontalAlignment="Left" Margin="555,587,0,0" VerticalAlignment="Top" Click="buttonSubmit_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="LightGray"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF8BDFF6"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="70" Height="30"
+    CornerRadius="10"
+    Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center"
+                  HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
     </Grid>
 </Page>
